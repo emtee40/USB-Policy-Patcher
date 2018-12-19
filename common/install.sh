@@ -70,3 +70,5 @@ else
     sed -i "/^$SPACES\usb {/,/^$SPACES}/ s/\(^ *\)sampling_rates .*/\1sampling_rates 48000<!--$MODID-->/g" $FILE
   done
 fi
+
+$MAGISK && ! $SYSOVERRIDE && cp_ch -nn $INSTALLER/common/aml.sh $UNITY/.aml.sh
