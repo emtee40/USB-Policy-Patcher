@@ -47,9 +47,10 @@ ui_print "   Decompressing files..."
 tar -xf $INSTALLER/common/xmlstarlet.tar.xz -C $INSTALLER/common 2>/dev/null
 chmod -R 755 $INSTALLER/common/xmlstarlet/$ARCH32
 echo $PATH | grep -q "^$INSTALLER/common/xmlstarlet/$ARCH32" || export PATH=$INSTALLER/common/xmlstarlet/$ARCH32:$PATH
+cp_ch $INSTALLER/common/xmlstarlet/$ARCH32/xmlstarlet $INSTALLER/system/bin/xmlstarlet
 
+ui_print "   Patching usb policy files..."
 if [ "$UPCS" ]; then
-  ui_print "   Applying fixes for usb output..."
   for OFILE in ${UPCS}; do
     FILE="$UNITY$(echo $OFILE | sed "s|^/vendor|/system/vendor|g")"
     cp_ch -nn $ORIGDIR$OFILE $FILE
@@ -61,7 +62,6 @@ if [ "$UPCS" ]; then
     done
   done
 else
-  ui_print "   Applying fixes for usb output..."
   for OFILE in ${APS}; do
     FILE="$UNITY$(echo $OFILE | sed "s|^/vendor|/system/vendor|g")"
     cp_ch -nn $ORIGDIR$OFILE $FILE
