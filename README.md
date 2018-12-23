@@ -5,6 +5,9 @@ Patches USB audio policy so it'll work with apps like V4A.
 * Any Android device
 
 ## Change Log
+### v1.2 - 12.23.2018
+* Unity v2.2 update
+
 ### v1.1 -12.21.2018
 * Updated to unity v2.1
 
