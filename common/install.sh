@@ -43,12 +43,6 @@ if $MAGISK && ! $SYSOVERRIDE; then
   fi
 fi
 
-ui_print "   Decompressing files..."
-tar -xf $INSTALLER/common/xmlstarlet.tar.xz -C $INSTALLER/common 2>/dev/null
-chmod -R 755 $INSTALLER/common/xmlstarlet/$ARCH32
-echo $PATH | grep -q "^$INSTALLER/common/xmlstarlet/$ARCH32" || export PATH=$INSTALLER/common/xmlstarlet/$ARCH32:$PATH
-cp_ch $INSTALLER/common/xmlstarlet/$ARCH32/xmlstarlet $INSTALLER/system/bin/xmlstarlet
-
 ui_print "   Patching usb policy files..."
 if [ "$UPCS" ]; then
   for OFILE in ${UPCS}; do
