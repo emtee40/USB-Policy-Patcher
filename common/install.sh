@@ -32,7 +32,7 @@ patch_xml() {
 
 # Tell user aml is needed if applicable
 if $MAGISK && ! $SYSOVERRIDE; then
-  if $BOOTMODE; then LOC="/sbin/.core/img/*/system $MOUNTPATH/*/system"; else LOC="$MOUNTPATH/*/system"; fi
+  if $BOOTMODE; then LOC="$MAGISKTMP/img/*/system $MOUNTPATH/*/system"; else LOC="$MOUNTPATH/*/system"; fi
   FILES=$(find $LOC -type f -name "usb_audio_policy_configuration.xml" -o -name "*audio_*policy*.conf" 2>/dev/null)
   if [ ! -z "$FILES" ] && [ ! "$(echo $FILES | grep '/aml/')" ]; then
     ui_print " "
@@ -47,7 +47,7 @@ ui_print "   Patching usb policy files..."
 if [ "$UPCS" ]; then
   for OFILE in ${UPCS}; do
     FILE="$UNITY$(echo $OFILE | sed "s|^/vendor|/system/vendor|g")"
-    cp_ch -nn $ORIGDIR$OFILE $FILE
+    cp_ch -i $ORIGDIR$OFILE $FILE
     grep -iE " name=\"usb[ _]+.* output\"" $FILE | sed -r "s/.*ame=\"([A-Za-z_ ]*)\".*/\1/" | while read i; do
       patch_xml $FILE "/module/mixPorts/mixPort[@name=\"$i\"]/profile[@name=\"\"]"
     done
@@ -58,11 +58,11 @@ if [ "$UPCS" ]; then
 else
   for OFILE in ${APS}; do
     FILE="$UNITY$(echo $OFILE | sed "s|^/vendor|/system/vendor|g")"
-    cp_ch -nn $ORIGDIR$OFILE $FILE
+    cp_ch -i $ORIGDIR$OFILE $FILE
     SPACES=$(sed -n "/^ *usb {/p" $FILE | sed -r "s/^( *).*/\1/")
     sed -i "/^$SPACES\usb {/,/^$SPACES}/ {/sampling_rates/p; s/\(^ *\)\(sampling_rates .*$\)/\1<!--$MODID\2$MODID-->/g;}" $FILE
     sed -i "/^$SPACES\usb {/,/^$SPACES}/ s/\(^ *\)sampling_rates .*/\1sampling_rates 48000<!--$MODID-->/g" $FILE
   done
 fi
 
-$MAGISK && ! $SYSOVERRIDE && cp_ch -nn $INSTALLER/common/aml.sh $UNITY/.aml.sh
+$MAGISK && ! $SYSOVERRIDE && cp_ch -i $INSTALLER/common/aml.sh $UNITY/.aml.sh
