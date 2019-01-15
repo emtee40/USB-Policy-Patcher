@@ -1,7 +1,7 @@
 id=upp
 name=USB Policy Patcher
-version=v1.4
-versionCode=6
+version=v1.5
+versionCode=7
 author=zackptg5
 description=Patches USB audio policy so it'll work with apps like V4A
 minMagisk=1530
